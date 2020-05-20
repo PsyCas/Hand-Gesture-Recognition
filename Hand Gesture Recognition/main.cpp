@@ -2,7 +2,7 @@
 #include <iostream>
 
 // include helper functions
-#include "hsvThresholding.h";
+#include "thresholdHelpers.h";
 
 using namespace cv;
 
@@ -16,8 +16,7 @@ int main() {
 	}
 
 	namedWindow("HSV Threshold Image", WINDOW_AUTOSIZE);
-	namedWindow("Region of Interest", WINDOW_AUTOSIZE);
-	// namedWindow("Threshold Image", WINDOW_AUTOSIZE);
+	namedWindow("Binary Threshold Image", WINDOW_AUTOSIZE);
 
 	Mat webcamFrame;
 	Mat maskImage;
@@ -38,18 +37,21 @@ int main() {
 		Rect roi(340, 100, 270, 270);
 		imgROI = webcamFrame(roi);
 
+		// locate region of interest in the webcam feed 
 		putText(webcamFrame, "Place Hand Here", Point(330, 80), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 0, 255), 1, 8, false);
 		rectangle(webcamFrame, Point(330,90), Point(620,380), Scalar(0, 255, 0), 2, 8, 0);
-
 
 		// call helper function for hsvThresholding
 		Mat hsvImage = createHSVThresholdImage(imgROI, maskImage);
 
+		// convert HSV image to binary
+		Mat binaryImage = createBinaryThresholdImage(hsvImage);
+		
 		// display all required frames 
 		imshow("Webcam frame", webcamFrame);
 		imshow("HSV Threshold Image", hsvImage);
-		imshow("Region of Interest", imgROI);
-
+		imshow("Binary Threshold Image", binaryImage);
+		
 		// Break out logic. If user presses esc, end program
 		if (waitKey(30) == 27) {
 			break;

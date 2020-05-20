@@ -146,10 +146,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="hsvThresholding.cpp" />
+    <ClCompile Include="thresholdHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hsvThresholding.h" />
+    <ClInclude Include="thresholdHelpers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

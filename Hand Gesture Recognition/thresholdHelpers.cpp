@@ -1,10 +1,11 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <vector>
-#include "hsvThresholding.h";
+#include "thresholdHelpers.h";
 
 using namespace cv;
 
+// convert webcam roi to hsv image
 Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage) {
 
 	Mat hsvReturn;
@@ -14,8 +15,24 @@ Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage) {
 	std::vector<int> upperBound = { 30, 255, 255 };
 	std::vector<int> lowerBound = { 0, 58, 50 };
 
-	//// add hsv mask to threshold image
+	// add hsv mask to threshold image
 	inRange(maskImage, lowerBound, upperBound, maskImage);
 	bitwise_and(webcamFrame, webcamFrame, hsvReturn, maskImage);
+
   return hsvReturn;
+}
+
+
+// convert hsvThreshold image to greyscale, then binary
+Mat createBinaryThresholdImage(Mat inputImage) {
+	
+	Mat binaryImage;
+	
+	// convert to greyscale 
+	cvtColor(inputImage, binaryImage, COLOR_RGB2GRAY);
+
+	// threshold the value of the greyscale image
+	threshold(binaryImage, binaryImage, 0, 255, THRESH_BINARY + THRESH_OTSU);
+	
+	return binaryImage;
 }

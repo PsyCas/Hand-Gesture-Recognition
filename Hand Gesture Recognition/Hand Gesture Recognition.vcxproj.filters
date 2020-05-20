@@ -18,12 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hsvThresholding.cpp">
+    <ClCompile Include="thresholdHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hsvThresholding.h">
+    <ClInclude Include="thresholdHelpers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
