@@ -10,8 +10,9 @@ Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage) {
 	Mat hsvReturn;
 	cvtColor(webcamFrame, maskImage, COLOR_BGR2HSV);
 
-	std::vector<int> upperBound = { 20, 150, 255 };
-	std::vector<int> lowerBound = { 0, 10, 60 };
+	// outlier, red color
+	std::vector<int> upperBound = { 30, 255, 255 };
+	std::vector<int> lowerBound = { 0, 58, 50 };
 
 	//// add hsv mask to threshold image
 	inRange(maskImage, lowerBound, upperBound, maskImage);
