@@ -6,3 +6,4 @@ using namespace cv;
 
 Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage);
 Mat createBinaryThresholdImage(Mat inputImage);
+Mat createDistanceTransformImage(Mat binaryImage);

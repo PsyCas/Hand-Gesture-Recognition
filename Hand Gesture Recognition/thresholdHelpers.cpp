@@ -3,8 +3,6 @@
 #include <vector>
 #include "thresholdHelpers.h";
 
-using namespace cv;
-
 // convert webcam roi to hsv image
 Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage) {
 
@@ -35,4 +33,14 @@ Mat createBinaryThresholdImage(Mat inputImage) {
 	threshold(binaryImage, binaryImage, 0, 255, THRESH_BINARY + THRESH_OTSU);
 	
 	return binaryImage;
+}
+
+
+Mat createDistanceTransformImage(Mat binaryImage) {
+	Mat distanceTransformImage;
+
+	distanceTransform(binaryImage, distanceTransformImage, DIST_L2, 5);
+	normalize(distanceTransformImage, distanceTransformImage, 0, 1.0, NORM_MINMAX);
+	
+	return distanceTransformImage;
 }

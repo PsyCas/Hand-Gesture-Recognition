@@ -3,6 +3,7 @@
 
 // include helper functions
 #include "thresholdHelpers.h";
+#include "processingHelpers.h";
 
 using namespace cv;
 
@@ -17,6 +18,8 @@ int main() {
 
 	namedWindow("HSV Threshold Image", WINDOW_AUTOSIZE);
 	namedWindow("Binary Threshold Image", WINDOW_AUTOSIZE);
+	namedWindow("Distance Transform Image", WINDOW_AUTOSIZE);
+	//namedWindow("Palmed Point Image", WINDOW_AUTOSIZE);
 
 	Mat webcamFrame;
 	Mat maskImage;
@@ -46,11 +49,19 @@ int main() {
 
 		// convert HSV image to binary
 		Mat binaryImage = createBinaryThresholdImage(hsvImage);
+
+		// Convert binary image to distance transform image
+		Mat distanceTransformImage = createDistanceTransformImage(binaryImage);
+		
+		// Get Palm point image
+		Mat palmPointImage = createPalmPoint(&distanceTransformImage, &imgROI);
 		
 		// display all required frames 
-		imshow("Webcam frame", webcamFrame);
+		imshow("Webcam frame", webcamFrame);		// also creates the palm point frame
 		imshow("HSV Threshold Image", hsvImage);
 		imshow("Binary Threshold Image", binaryImage);
+		imshow("Distance Transform Image", distanceTransformImage);
+		imshow("Palm Point Image", palmPointImage);
 		
 		// Break out logic. If user presses esc, end program
 		if (waitKey(30) == 27) {
