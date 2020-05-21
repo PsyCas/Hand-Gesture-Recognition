@@ -24,6 +24,8 @@ int main() {
 	Mat webcamFrame;
 	Mat maskImage;
 	Mat imgROI;
+	std::pair<double, double> palmPoint;
+	int radius = 0;
 
 	while (true) {
 
@@ -54,7 +56,11 @@ int main() {
 		Mat distanceTransformImage = createDistanceTransformImage(binaryImage);
 		
 		// Get Palm point image
-		Mat palmPointImage = createPalmPoint(&distanceTransformImage, &imgROI);
+		Mat palmPointImage = createPalmPoint(&distanceTransformImage, &imgROI, palmPoint);
+
+		// Draw inner cricle of maximum radius
+		radius = findInnerCircle(&binaryImage, &palmPointImage ,palmPoint);
+
 		
 		// display all required frames 
 		imshow("Webcam frame", webcamFrame);		// also creates the palm point frame
