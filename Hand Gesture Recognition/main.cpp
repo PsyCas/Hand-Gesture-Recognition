@@ -60,12 +60,26 @@ int main() {
 		Mat palmPointImage = createPalmPoint(&distanceTransformImage, &imgROI, palmPoint);
 
 		// Draw inner cricle of maximum radius
-		Mat palmMaskImage = findInnerCircle(&binaryImage, &palmPointImage ,palmPoint);
+		findInnerCircle(&binaryImage, &palmPointImage ,palmPoint);
 
 		//Find and get all the contours
 		findAllContours(&binaryImage, contours, maxContourIndex);
-		std::cout << "maxContourIndex: " << maxContourIndex << std::endl;
+		int contourSize = contours.size();
 
+		//Find fingertips using convex hulls
+		std::vector<std::vector<int>> hull(contourSize);
+		std::vector<std::vector<Point>> hullPixels(contourSize);
+
+		std::vector<std::vector<Vec4i>> defects(contourSize);
+		std::vector<std::vector<Point>> defectPixels(contourSize);
+
+		int fingersDetected = findHullsAndDefects(&imgROI, contours, contourSize, hull, hullPixels, defects, defectPixels, maxContourIndex);
+		
+		// show the final message
+		std::string displayMessage = "";
+		displayMessage = getDisplayMessage(fingersDetected);
+
+		putText(webcamFrame, displayMessage, Point(10, 30), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 1.5, 8, false);
 		
 		// display all required frames 
 		imshow("Webcam frame", webcamFrame);		// also creates the palm point frame
