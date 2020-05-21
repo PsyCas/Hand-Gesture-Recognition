@@ -3,6 +3,9 @@
 #include <vector>
 #include <cmath>
 #include "processingHelpers.h";
+#include "thresholdHelpers.h";
+
+const double PI = 3.14159265358979323846;
 
 //precondition: input image is a greyscale distance transformed image 
 Mat createPalmPoint(const Mat *inputImage, const Mat *imgROI, std::pair<double, double> &palmPoint) {
@@ -31,21 +34,22 @@ Mat createPalmPoint(const Mat *inputImage, const Mat *imgROI, std::pair<double, 
       }
     }
   }
-
   return palmPointImage;
 }
 
-int findInnerCircle(Mat* binaryImage, Mat* palmPointImage, const std::pair<double, double> &palmPoint) {
+Mat findInnerCircle(Mat* binaryImage, Mat* palmPointImage, const std::pair<double, double> &palmPoint) {
 
   std::cout << "Center X: " << palmPoint.first << ", Center Y: " << palmPoint.second << std::endl;
   bool flag = true;
   int radius = 1;
+  //Mat palmMaskImage(binaryImage->size().height, binaryImage->size().width, 1, Scalar(0));
+  Mat palmMaskImage = createBinaryThresholdImage(*palmPointImage);
 
   while (flag) {
     
     for (int i = 0; i < 360; i += 1) {
-      double x = radius * cos(i) + palmPoint.first;
-      double y = radius * sin(i) + palmPoint.second;
+      double x = radius * cos((i* PI)/180) + palmPoint.first;
+      double y = radius * sin((i* PI)/ 180) + palmPoint.second;
       
       if (x > 0 && y > 0 && x < palmPointImage->size().height && y < palmPointImage->size().width) {
         if (binaryImage->at<uchar>(x, y) == 0) {
@@ -59,7 +63,24 @@ int findInnerCircle(Mat* binaryImage, Mat* palmPointImage, const std::pair<doubl
   
   if (radius != 1) {
     circle(*palmPointImage, Point(palmPoint.first, palmPoint.second), radius, Scalar(0, 0, 255), 1, 8, 0);
+    circle(*palmPointImage, Point(palmPoint.first, palmPoint.second), radius*1.5, Scalar(255, 0, 0), 1, 8, 0);
+
+    radius *= 1.5;    
+      
+    for (int p = 0; p < binaryImage->size().height; ++p) {
+      for (int q = 0; q < binaryImage->size().width; ++q) {
+        
+        double distance = sqrt(pow(p - palmPoint.first, 2) + pow(q - palmPoint.second, 2));
+        int binaryVal = binaryImage->at<uchar>(p, q);
+        if (distance < radius) {
+          palmMaskImage.at<uchar>(p, q) = binaryVal;
+        }
+        else {
+          palmMaskImage.at<uchar>(p, q) = 0;
+        }
+      }
+    }
   }
 
-  return radius;
+  return palmMaskImage;
 }

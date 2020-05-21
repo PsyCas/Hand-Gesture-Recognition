@@ -19,7 +19,6 @@ int main() {
 	namedWindow("HSV Threshold Image", WINDOW_AUTOSIZE);
 	namedWindow("Binary Threshold Image", WINDOW_AUTOSIZE);
 	namedWindow("Distance Transform Image", WINDOW_AUTOSIZE);
-	//namedWindow("Palmed Point Image", WINDOW_AUTOSIZE);
 
 	Mat webcamFrame;
 	Mat maskImage;
@@ -59,7 +58,7 @@ int main() {
 		Mat palmPointImage = createPalmPoint(&distanceTransformImage, &imgROI, palmPoint);
 
 		// Draw inner cricle of maximum radius
-		radius = findInnerCircle(&binaryImage, &palmPointImage ,palmPoint);
+		Mat palmMaskImage = findInnerCircle(&binaryImage, &palmPointImage ,palmPoint);
 
 		
 		// display all required frames 
