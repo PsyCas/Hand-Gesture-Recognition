@@ -65,7 +65,7 @@ Mat findInnerCircle(Mat* binaryImage, Mat* palmPointImage, const std::pair<doubl
     circle(*palmPointImage, Point(palmPoint.first, palmPoint.second), radius, Scalar(0, 0, 255), 1, 8, 0);
     circle(*palmPointImage, Point(palmPoint.first, palmPoint.second), radius*1.5, Scalar(255, 0, 0), 1, 8, 0);
 
-    radius *= 1.5;    
+    /*radius *= 1.5;    
       
     for (int p = 0; p < binaryImage->size().height; ++p) {
       for (int q = 0; q < binaryImage->size().width; ++q) {
@@ -79,8 +79,23 @@ Mat findInnerCircle(Mat* binaryImage, Mat* palmPointImage, const std::pair<doubl
           palmMaskImage.at<uchar>(p, q) = 0;
         }
       }
+    }*/
+  }
+  return palmMaskImage;
+}
+
+
+void findAllContours(Mat* binaryImage, std::vector<std::vector<Point>> &contours, int& maxContourIndex){
+
+  int maxValue = -1;
+  std::vector<Vec4i> heirarchy;
+  findContours(*binaryImage, contours, heirarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point());
+  std::cout << "size: " << contours.size() << std::endl;
+  
+  for (int i = 0; i < contours.size(); ++i) {
+    if(contours[i].size() > maxValue){
+      maxValue = contours[i].size();
+      maxContourIndex = i;
     }
   }
-
-  return palmMaskImage;
 }

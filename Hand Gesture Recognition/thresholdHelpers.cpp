@@ -29,6 +29,9 @@ Mat createBinaryThresholdImage(Mat inputImage) {
 	// convert to greyscale 
 	cvtColor(inputImage, binaryImage, COLOR_RGB2GRAY);
 
+	//blur the image
+	GaussianBlur(binaryImage, binaryImage, Size(19, 19), 0.0, 0);
+	
 	// threshold the value of the greyscale image
 	threshold(binaryImage, binaryImage, 0, 255, THRESH_BINARY + THRESH_OTSU);
 	

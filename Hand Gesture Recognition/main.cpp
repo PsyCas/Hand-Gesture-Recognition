@@ -24,6 +24,8 @@ int main() {
 	Mat maskImage;
 	Mat imgROI;
 	std::pair<double, double> palmPoint;
+	std::vector<std::vector<Point>> contours;
+	int maxContourIndex = -1;
 	int radius = 0;
 
 	while (true) {
@@ -60,6 +62,10 @@ int main() {
 		// Draw inner cricle of maximum radius
 		Mat palmMaskImage = findInnerCircle(&binaryImage, &palmPointImage ,palmPoint);
 
+		//Find and get all the contours
+		findAllContours(&binaryImage, contours, maxContourIndex);
+		std::cout << "maxContourIndex: " << maxContourIndex << std::endl;
+
 		
 		// display all required frames 
 		imshow("Webcam frame", webcamFrame);		// also creates the palm point frame
@@ -67,6 +73,8 @@ int main() {
 		imshow("Binary Threshold Image", binaryImage);
 		imshow("Distance Transform Image", distanceTransformImage);
 		imshow("Palm Point Image", palmPointImage);
+		//imshow("Palm Mask Image", palmMaskImage);
+
 		
 		// Break out logic. If user presses esc, end program
 		if (waitKey(30) == 27) {
