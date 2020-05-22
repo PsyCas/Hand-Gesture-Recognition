@@ -155,13 +155,15 @@ int findHullsAndDefects( Mat *image,
       }
 
       for (int j = 0; j < defects[i].size(); ++j) {
-        if (defects[i][j][3] > 12 * 255) {
+        if (defects[i][j][3] > 13 * 255) {
 
           defectPixels[i].push_back(contours[i][defects[i][j][2]]);
-          circle(*image, contours[i][defects[i][j][1]], 3, Scalar(0, 0, 255), 2);
+          circle(*image, contours[i][defects[i][j][1]], 3, Scalar(255, 255, 0), 2);
           fingertips++;
         }
       }
+
+      drawContours(*image, hullPixels, i, Scalar(0, 0, 255), 2, 8, std::vector<Vec4i>(), 0, Point());
     }
   }
 

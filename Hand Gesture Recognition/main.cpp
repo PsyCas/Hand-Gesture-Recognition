@@ -56,6 +56,9 @@ int main() {
 
 	while (true) {
 
+		// uncomment this line and comment out the videocapture lines to test for static image
+		//webcamFrame = imread("hand.png");
+
 		// initialize webcam frame and perform logic 
 		if (!cap.read(webcamFrame)) {
 			std::cout << "Error: Cannot display webcam image. Exiting.";
@@ -92,7 +95,7 @@ int main() {
 		findAllContours(&binaryImage, contours, maxContourIndex);
 		int contourSize = contours.size();
 
-		//Find fingertips using convex hulls
+		//Find fingertips using convex hulls and defects
 		std::vector<std::vector<int>> hull(contourSize);
 		std::vector<std::vector<Point>> hullPixels(contourSize);
 
@@ -104,7 +107,6 @@ int main() {
 		// show the final message
 		std::string displayMessage = "";
 		displayMessage = getDisplayMessage(fingersDetected);
-
 		putText(webcamFrame, displayMessage, Point(10, 30), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 1.5, 8, false);
 		
 		// display all required frames 
@@ -113,8 +115,6 @@ int main() {
 		imshow("Binary Threshold Image", binaryImage);
 		imshow("Distance Transform Image", distanceTransformImage);
 		imshow("Palm Point Image", palmPointImage);
-		//imshow("Palm Mask Image", palmMaskImage);
-
 		
 		// Break out logic. If user presses esc, end program
 		if (waitKey(30) == 27) {
