@@ -30,6 +30,9 @@ int main() {
 
 	while (true) {
 
+		// uncomment this line and comment out the videocapture lines to test for static image
+		//webcamFrame = imread("hand.png");
+
 		// initialize webcam frame and perform logic 
 		if (!cap.read(webcamFrame)) {
 			std::cout << "Error: Cannot display webcam image. Exiting.";
