@@ -1,3 +1,14 @@
+/*
+	Hand Gesture Recognition
+
+	Written by:  Parakram Basnet
+	Instructor:  Ioannis Stamos
+	Class	  :  Computational Vision
+	File: main.cpp
+
+	Program that detects the hand of a user using a webcam and shows how many fingers the user has held up.
+	====================================================================================================================
+*/
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -8,6 +19,12 @@
 
 using namespace cv;
 
+/*
+ * Driver function
+ * Creates videocapture object and Mat objects to store images.
+ * Runs the main infinite loop for the program.
+ * Makes calls to helper function to perform the assigned tasks.
+ */
 int main() {
 
 	// create video capture object
@@ -17,16 +34,24 @@ int main() {
 		return -1;
 	}
 
+	//create named windows for different images
 	namedWindow("HSV Threshold Image", WINDOW_AUTOSIZE);
 	namedWindow("Binary Threshold Image", WINDOW_AUTOSIZE);
 	namedWindow("Distance Transform Image", WINDOW_AUTOSIZE);
 
+	// creating objects for images
 	Mat webcamFrame;
 	Mat maskImage;
 	Mat imgROI;
+
+	//stores the center of the palm
 	std::pair<double, double> palmPoint;
+
+	// stores the contours 
 	std::vector<std::vector<Point>> contours;
 	int maxContourIndex = -1;
+
+	// radius of the inner circle.
 	int radius = 0;
 
 	while (true) {

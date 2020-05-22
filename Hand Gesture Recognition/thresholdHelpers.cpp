@@ -1,9 +1,26 @@
+/*
+	Hand Gesture Recognition
+
+	Written by:  Parakram Basnet
+	Instructor:  Ioannis Stamos
+	Class	  :  Computational Vision
+	File: thresholdHelpers.cpp
+
+	Implementation for thresholdHelpers.cpp.
+====================================================================================================================
+*/
+
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <vector>
 #include "thresholdHelpers.h";
 
-// convert webcam roi to hsv image
+/*
+ * Function that gets the webcam frame and finds the HSV threshold image for it.
+ * @param:  webcamFrame -> greyscale distance transformed image.
+						maskImage -> image to use for bitwise_and.
+ * @return: Image containing the HSV threshold image.
+ */
 Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage) {
 
 	Mat hsvReturn;
@@ -21,7 +38,11 @@ Mat createHSVThresholdImage(Mat webcamFrame, Mat maskImage) {
 }
 
 
-// convert hsvThreshold image to greyscale, then binary
+/*
+ * Function that creates a binary threshold image of inputImage.
+ * @param:  inputImage -> ROI of webcam frame.
+ * @return: binary image of the webcam frame.
+ */
 Mat createBinaryThresholdImage(Mat inputImage) {
 	
 	Mat binaryImage;
@@ -38,7 +59,11 @@ Mat createBinaryThresholdImage(Mat inputImage) {
 	return binaryImage;
 }
 
-
+/*
+ * Function that creates the distance transformed image.
+ * @param:  binaryImage -> binary image of the webcam frame.
+ * @return: Distance transform image of the webcam frame.
+ */
 Mat createDistanceTransformImage(Mat binaryImage) {
 	Mat distanceTransformImage;
 

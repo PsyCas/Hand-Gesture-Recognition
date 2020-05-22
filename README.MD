@@ -3,8 +3,9 @@
 A program written using openCV libraries that uses computer vision techniques to detect hands and fingers from an input webcam.
 
 ## Computational Vision Class Project
+
 Written by: Parakram Basnet
-Instructot: Ioannis Stamos
+Instructor: Ioannis Stamos
 Class: Computational Vision
 
 ## Installation
